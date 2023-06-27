@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<style>
+table, th, td {
+  border:1px solid black;
+}
+td {
+  padding-left: 5px;
+
+}
+</style>
+<body>
+
+<h2>API endpoints cheatsheet</h2>
+
+<table style="width:100%">
+  <tr>
+    <th>Endpoint</th>
+    <th>Method</th>
+    <th>Input</th>
+    <th>Output</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>/user/login</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+        <li>password</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>movies</li>
+        <ul>
+          <li>Format: list of dict (one dict per recommended movie). genre is a list of genres</li>
+          <li>title</li>
+          <li>overview</li>
+          <li>poster_path</li>
+          <li>release_date</li>
+          <li>genre</li>
+        </ul>
+        <li>requests</li>
+        <li>username</li>
+        <li>name</li>
+        <li>friends</li>
+        <li>groups</li>
+        <ul>
+          <li>Format: list of dict (one dict per group). name is group name, members is a list of usernames, movies is the same as above movies</li>
+          <li>name</li>
+          <li>members</li>
+          <li>movies</li>
+        </ul>
+      </ul>
+    </td>
+    <td>Login. Movies is the list of movies to display, requests is a list of user's who have requested to add the user as a friend. Friends is a list of friends, and groups is a list of lists of friends in the groups the user is in.</td>
+  </tr>
+  <tr>
+    <td>/user/add</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+        <li>password</li>
+        <li>name</li>
+        <li>email</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+        <li>ID</li>
+        <li>name</li>
+        <li>email</li>
+      </ul>
+    </td>
+    <td>Add user</td>
+  </tr>
+  <tr>
+    <td>/user/delete</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>message</li>
+      </ul>
+    </td>
+    <td>For deleting a user and all associated resources</td>
+  </tr>
+  <tr>
+    <td>/movie/swipe</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+        <li>title</li>
+        <li>rating</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+        <li>title</li>
+        <li>rating</li>
+      </ul>
+    </td>
+    <td>For when a user swipes left or right on a movie. 'rating' is a 0 or 1 for left and right swipe, respectively</td>
+  </tr>
+  <tr>
+    <td>/movie/rate</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+        <li>title</li>
+        <li>rating</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+        <li>title</li>
+        <li>rating</li>
+      </ul>
+    </td>
+    <td>For when a user swipes up on a movie. The rating is the same as above, 1 if recommended, 0 if not.</td>
+  </tr>
+  <tr>
+    <td>/movie/new</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>movies</li>
+        <ul>
+          <li>Format: list of dict (one dict per recommended movie). note genre is a list of genres</li>
+          <li>title</li>
+          <li>overview</li>
+          <li>poster_path</li>
+          <li>release_date</li>
+          <li>genre</li>
+        </ul>
+      </ul>
+    </td>
+    <td>For getting a fresh stack of recommended movies</td>
+  </tr>
+  <tr>
+    <td>/movie/random</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>movies</li>
+        <ul>
+          <li>Format: list of a single dictionary. genre is list of genres</li>
+          <li>title</li>
+          <li>overview</li>
+          <li>poster_path</li>
+          <li>release_date</li>
+          <li>genre</li>
+        </ul>
+      </ul>
+    </td>
+    <td>For getting a single random movie</td>
+  </tr>
+  <tr>
+    <td>/friends/add</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username1</li>
+        <li>username2</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username1</li>
+        <li>username2</li>
+      </ul>
+    </td>
+    <td>For sending a friend request. username1 should be the source, username2 should be the destination.</td>
+  </tr>
+  <tr>
+    <td>/friends/remove</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username1</li>
+        <li>username2</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>message</li>
+      </ul>
+    </td>
+    <td>For removing a friend. API checks both orderings of usernames so it shouldn't matter who is username1 and who is username2</td>
+  </tr>
+  <tr>
+    <td>/friends/confirm</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username1</li>
+        <li>username2</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username1</li>
+        <li>username2</li>
+      </ul>
+    </td>
+    <td>For confirming a friend request. username1 should be the source, username2 should be the destination.</td>
+  </tr>
+  <tr>
+    <td>/friends/reject</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username1</li>
+        <li>username2</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>message</li>
+      </ul>
+    </td>
+    <td>For rejecting a friend request. username1 should be the source, username2 should be the destination.</td>
+  </tr>
+  <tr>
+    <td>/group/new</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary. name is group name, members is a list of usernames</li>
+        <li>name</li>
+        <li>members</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Format: dictionary. name is group name, members is a list of usernames</li>
+        <li>name</li>
+        <li>members</li>
+        <li>movies</li>
+        <ul>
+          <li>Format: list of dict (one dict per recommended movie). note genre is a list of genres</li>
+          <li>title</li>
+          <li>overview</li>
+          <li>poster_path</li>
+          <li>release_date</li>
+          <li>genre</li>
+          <li>likes</li>
+        </ul>
+      </ul>
+    </td>
+    <td>For creating a group and getting the shared titles.</td>
+  </tr>
+  <tr>
+    <td>/group/refresh</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Format: list of dictionary, one per group. name is group name, members is a list of usernames, movies is the same as login movies</li>
+        <li>name</li>
+        <li>members</li>
+        <li>movies</li>
+        <ul>
+          <li>Format: list of dict (one dict per recommended movie). note genre is a list of genres</li>
+          <li>title</li>
+          <li>overview</li>
+          <li>poster_path</li>
+          <li>release_date</li>
+          <li>genre</li>
+          <li>likes</li>
+        </ul>
+      </ul>
+    </td>
+    <td>For getting all groups and recommended movies again</td>
+  </tr>
+  <tr>
+    <td>/group/delete</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>groupid</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>message</li>
+      </ul>
+    </td>
+    <td>For deleting a group</td>
+  </tr>
+  <tr>
+    <td>/user/watchlist</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>right</li>
+        <ul>
+          <li>Format: list of dict (one dict per movie). note genre is a list of genres</li>
+          <li>title</li>
+          <li>overview</li>
+          <li>poster_path</li>
+          <li>release_date</li>
+          <li>genre</li>
+        </ul>
+        <li>left</li>
+        <ul>
+          <li>Format: list of dict (one dict per movie). note genre is a list of genres</li>
+          <li>title</li>
+          <li>overview</li>
+          <li>poster_path</li>
+          <li>release_date</li>
+          <li>genre</li>
+        </ul>
+      </ul>
+    </td>
+    <td>For getting swipes</td>
+  </tr>
+  <tr>
+    <td>/user/refresh</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>requests</li>
+        <li>username</li>
+        <li>name</li>
+        <li>friends</li>
+        <li>groups</li>
+        <ul>
+          <li>Format: list of dict (one dict per group). name is group name, members is a list of usernames, movies is the same as above movies</li>
+          <li>name</li>
+          <li>members</li>
+          <li>movies</li>
+          <li>groupid</li>
+          <li>leader</li>
+      </ul>
+    </td>
+    <td>For getting swipes</td>
+  </tr>
+  <tr>
+    <td>/user/password/change</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+        <li>code</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+      <li>Format: dictionary</li>
+        <li>message</li>
+      </ul>
+    </td>
+    <td>For sending change password code</td>
+  </tr>
+  <tr>
+    <td>/user/password/set</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+        <li>password</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+      <li>Format: dictionary</li>
+        <li>message</li>
+      </ul>
+    </td>
+    <td>For setting new password</td>
+  </tr>
+  <tr>
+    <td>/group/remove</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+        <li>groupid</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+      <li>Format: dictionary</li>
+        <li>movies</li>
+      </ul>
+    </td>
+    <td>For removing a group member. Returns an updated list of the groups movies</td>
+  </tr>
+  <tr>
+    <td>/group/add</td>
+    <td>POST</td>
+    <td>
+      <ul>
+        <li>Format: dictionary</li>
+        <li>username</li>
+        <li>groupid</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+      <li>Format: dictionary</li>
+        <li>movies</li>
+      </ul>
+    </td>
+    <td>For adding a group member. Returns an updated list of the groups movies.</td>
+  </tr>
+</table>
+
+</body>
+</html>
